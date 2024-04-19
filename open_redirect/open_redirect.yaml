@@ -1,0 +1,45 @@
+id: open_redirect
+
+info:
+  name: Open Redirect
+  author: k1rnt
+  severity: Low
+  tags: openredirect
+
+http:
+  - raw:
+    - |+
+      GET {{BaseURL}}?§pattern§=http://example.com HTTP/1.1
+    payloads:
+      pattern:
+          - "url"
+          - "to"
+          - "forward"
+          - "page"
+          - "checkout"
+          - "dest"
+          - "destination"
+          - "dest_url"
+          - "redirect"
+          - "visit"
+          - "go"
+          - "move"
+          - "target"
+          - "flow"
+          - "out"
+          - "next"
+          - "login"
+          - "return_to"
+          - "redir"
+          - "return"
+          - "return_to"
+          - "r"
+          - "src"
+
+    attack: clusterbomb
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: header
+        regex:
+          - "(?m)^(?:Location\\s*?:\\s*?)(?:http?:\\/\\/|\\/\\/)?(?:[a-zA-Z0-9\\-_\\.@]*)example\\.com.*$"
